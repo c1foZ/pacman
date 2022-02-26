@@ -1,0 +1,15 @@
+/Users/tomasferencik/Desktop/consoleapp/pacman/bin/Debug/net5.0/pacman.deps.json
+/Users/tomasferencik/Desktop/consoleapp/pacman/bin/Debug/net5.0/pacman.runtimeconfig.json
+/Users/tomasferencik/Desktop/consoleapp/pacman/bin/Debug/net5.0/pacman.runtimeconfig.dev.json
+/Users/tomasferencik/Desktop/consoleapp/pacman/bin/Debug/net5.0/pacman.dll
+/Users/tomasferencik/Desktop/consoleapp/pacman/bin/Debug/net5.0/ref/pacman.dll
+/Users/tomasferencik/Desktop/consoleapp/pacman/bin/Debug/net5.0/pacman.pdb
+/Users/tomasferencik/Desktop/consoleapp/pacman/obj/Debug/net5.0/pacman.csproj.AssemblyReference.cache
+/Users/tomasferencik/Desktop/consoleapp/pacman/obj/Debug/net5.0/pacman.GeneratedMSBuildEditorConfig.editorconfig
+/Users/tomasferencik/Desktop/consoleapp/pacman/obj/Debug/net5.0/pacman.AssemblyInfoInputs.cache
+/Users/tomasferencik/Desktop/consoleapp/pacman/obj/Debug/net5.0/pacman.AssemblyInfo.cs
+/Users/tomasferencik/Desktop/consoleapp/pacman/obj/Debug/net5.0/pacman.csproj.CoreCompileInputs.cache
+/Users/tomasferencik/Desktop/consoleapp/pacman/obj/Debug/net5.0/pacman.dll
+/Users/tomasferencik/Desktop/consoleapp/pacman/obj/Debug/net5.0/ref/pacman.dll
+/Users/tomasferencik/Desktop/consoleapp/pacman/obj/Debug/net5.0/pacman.pdb
+/Users/tomasferencik/Desktop/consoleapp/pacman/obj/Debug/net5.0/pacman.genruntimeconfig.cache
