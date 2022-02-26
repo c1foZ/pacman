@@ -36,6 +36,7 @@ namespace pacman
             DrawWorld();
             Move(PLAYER, x, y);
 
+
             while (true)
             {
                 Console.CursorVisible = false;
