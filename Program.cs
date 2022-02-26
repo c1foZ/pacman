@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace pacman
         const string o = ".";
         const int maxRight = 23;
         const int maxDown = 3;
+        const int timeout = 333;
         static void Main(string[] args)
         {
             // Game game = new Game();
@@ -35,7 +37,11 @@ namespace pacman
             int coins = 0;
             DrawWorld();
             Move(PLAYER, x, y);
-
+            var startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            var stepMs = 333;
+            long now;
+            var i = 0;
+            ConsoleKey? lastKeyPress = null;
 
 
             while (true)
@@ -43,13 +49,38 @@ namespace pacman
                 Console.CursorVisible = false;
                 if (Console.KeyAvailable)
                 {
-                    var command = Console.ReadKey().Key;
+                    var command = Console.ReadKey(false).Key;
+                    lastKeyPress = command;
+                    now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                    if (now - startTime <= stepMs)
+                    {
+                        continue;
+                    }
+                    startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                    if (lastKeyPress != null)
+                    {
+                        Console.SetCursorPosition(50, 20);
+                        System.Console.WriteLine("last press: " + lastKeyPress);
+                        lastKeyPress = null;
+                    }
 
                     switch (command)
                     {
                         case ConsoleKey.DownArrow:
                             while (y < maxDown && maze[y + 1, x] != W)
                             {
+                                now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                                if (now - startTime <= stepMs)
+                                {
+                                    continue;
+                                }
+                                startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                                if (lastKeyPress != null)
+                                {
+                                    Console.SetCursorPosition(50, 50);
+                                    System.Console.WriteLine("last press: " + lastKeyPress);
+                                    lastKeyPress = null;
+                                }
                                 y++;
                                 Play();
                             }
@@ -57,6 +88,19 @@ namespace pacman
                         case ConsoleKey.UpArrow:
                             while (y > 1 && maze[y - 1, x] != W)
                             {
+                                now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                                if (now - startTime <= stepMs)
+                                {
+                                    continue;
+                                }
+                                startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                                if (lastKeyPress != null)
+                                {
+                                    Console.SetCursorPosition(50, 50);
+                                    System.Console.WriteLine("last press: " + lastKeyPress);
+                                    lastKeyPress = null;
+                                }
+
                                 y--;
                                 Play();
                             }
@@ -64,6 +108,18 @@ namespace pacman
                         case ConsoleKey.LeftArrow:
                             while (x > 1 && maze[y, x - 1] != W)
                             {
+                                now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                                if (now - startTime <= stepMs)
+                                {
+                                    continue;
+                                }
+                                startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                                if (lastKeyPress != null)
+                                {
+                                    Console.SetCursorPosition(50, 50);
+                                    System.Console.WriteLine("last press: " + lastKeyPress);
+                                    lastKeyPress = null;
+                                }
                                 x--;
                                 Play();
                             }
@@ -71,6 +127,18 @@ namespace pacman
                         case ConsoleKey.RightArrow:
                             while (x < maxRight && maze[y, x + 1] != W)
                             {
+                                now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                                if (now - startTime <= stepMs)
+                                {
+                                    continue;
+                                }
+                                startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                                if (lastKeyPress != null)
+                                {
+                                    Console.SetCursorPosition(50, 50);
+                                    System.Console.WriteLine("last press: " + lastKeyPress);
+                                    lastKeyPress = null;
+                                }
                                 x++;
                                 Play();
                             }
@@ -84,8 +152,22 @@ namespace pacman
                 DrawWorld();
                 Move(PLAYER, x, y);
                 GetCoin();
-                Thread.Sleep(333);
+                // Thread.Sleep(timeout);
                 ClearKeyBuffer();
+                // ChangeDirection();
+            }
+
+            void ChangeDirection()
+            {
+                while (true)
+                {
+                    now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                    if (now - startTime <= stepMs)
+                    {
+                        continue;
+                    }
+                    startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                }
             }
 
             void ClearKeyBuffer()
