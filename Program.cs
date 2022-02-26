@@ -37,6 +37,7 @@ namespace pacman
             Move(PLAYER, x, y);
 
 
+
             while (true)
             {
                 Console.CursorVisible = false;
