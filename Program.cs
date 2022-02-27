@@ -9,6 +9,7 @@ namespace pacman
         const string W = "#";
         const string S = " ";
         const string PLAYER = "*";
+        const string ENEMY = "X";
         const string o = ".";
         const int maxRight = 23;
         const int maxDown = 18;
@@ -97,6 +98,7 @@ namespace pacman
                 DrawWorld();
                 Move(PLAYER, x, y);
                 GetCoin();
+                // enemyMove(ENEMY, x, y);
             }
 
             void GetCoin()
@@ -118,6 +120,10 @@ namespace pacman
                     Console.Write(PLAYER);
                 }
             }
+            // void enemyMove(string ENEMY, int x = 10, int y = 10)
+            // {
+            //     Console.Write(ENEMY);
+            // }
 
             void DrawWorld()
             {
