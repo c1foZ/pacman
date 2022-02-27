@@ -11,7 +11,7 @@ namespace pacman
         const string PLAYER = "*";
         const string o = ".";
         const int maxRight = 23;
-        const int maxDown = 3;
+        const int maxDown = 18;
         static void Main(string[] args)
         {
             // Game game = new Game();
@@ -28,6 +28,21 @@ namespace pacman
                 {W,S,o,S,S,W,S,W,S,W,S,S,S,S,S,S,S,W,S,W,S,W,S,o,W},
                 {W,S,S,W,S,W,S,o,S,W,S,S,W,S,S,W,S,W,S,o,S,W,S,S,W},
                 {W,o,S,W,o,S,S,W,S,o,S,S,W,o,S,W,o,S,S,W,S,o,S,S,W},
+                {W,S,o,S,S,W,S,W,S,W,S,S,S,S,S,S,S,W,S,W,S,W,S,o,W},
+                {W,S,S,W,S,W,S,o,S,W,S,S,W,S,S,W,S,W,S,o,S,W,S,S,W},
+                {W,o,S,W,o,S,S,W,S,o,S,S,W,o,S,W,o,S,S,W,S,o,S,S,W},
+                {W,S,o,S,S,W,S,W,S,W,S,S,S,S,S,S,S,W,S,W,S,W,S,o,W},
+                {W,S,S,W,S,W,S,o,S,W,S,S,W,S,S,W,S,W,S,o,S,W,S,S,W},
+                {W,o,S,W,o,S,S,W,S,o,S,S,W,o,S,W,o,S,S,W,S,o,S,S,W},
+                {W,S,o,S,S,W,S,W,S,W,S,S,S,S,S,S,S,W,S,W,S,W,S,o,W},
+                {W,S,S,W,S,W,S,o,S,W,S,S,W,S,S,W,S,W,S,o,S,W,S,S,W},
+                {W,o,S,W,o,S,S,W,S,o,S,S,W,o,S,W,o,S,S,W,S,o,S,S,W},
+                {W,S,o,S,S,W,S,W,S,W,S,S,S,S,S,S,S,W,S,W,S,W,S,o,W},
+                {W,S,S,W,S,W,S,o,S,W,S,S,W,S,S,W,S,W,S,o,S,W,S,S,W},
+                {W,o,S,W,o,S,S,W,S,o,S,S,W,o,S,W,o,S,S,W,S,o,S,S,W},
+                {W,S,o,S,S,W,S,W,S,W,S,S,S,S,S,S,S,W,S,W,S,W,S,o,W},
+                {W,S,S,W,S,W,S,o,S,W,S,S,W,S,S,W,S,W,S,o,S,W,S,S,W},
+                {W,o,S,W,o,S,S,W,S,o,S,S,W,o,S,W,o,S,S,W,S,o,S,S,W},
                 {W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W},
             };
             int rowLength = maze.GetLength(0);
@@ -35,7 +50,6 @@ namespace pacman
             int coins = 0;
             DrawWorld();
             Move(PLAYER, x, y);
-
 
             while (true)
             {
@@ -47,28 +61,28 @@ namespace pacman
                     switch (command)
                     {
                         case ConsoleKey.DownArrow:
-                            while (y < maxDown && maze[y + 1, x] != W)
+                            if (maze[y + 1, x] != W)
                             {
                                 y++;
                                 Play();
                             }
                             break;
                         case ConsoleKey.UpArrow:
-                            while (y > 1 && maze[y - 1, x] != W)
+                            if (maze[y - 1, x] != W)
                             {
                                 y--;
                                 Play();
                             }
                             break;
                         case ConsoleKey.LeftArrow:
-                            while (x > 1 && maze[y, x - 1] != W)
+                            if (maze[y, x - 1] != W)
                             {
                                 x--;
                                 Play();
                             }
                             break;
                         case ConsoleKey.RightArrow:
-                            while (x < maxRight && maze[y, x + 1] != W)
+                            if (maze[y, x + 1] != W)
                             {
                                 x++;
                                 Play();
@@ -83,16 +97,6 @@ namespace pacman
                 DrawWorld();
                 Move(PLAYER, x, y);
                 GetCoin();
-                Thread.Sleep(333);
-                ClearKeyBuffer();
-            }
-
-            void ClearKeyBuffer()
-            {
-                while (Console.KeyAvailable)
-                {
-                    Console.ReadKey(false);
-                }
             }
 
             void GetCoin()
@@ -101,7 +105,7 @@ namespace pacman
                 {
                     maze[y, x] = S;
                     coins += 1;
-                    Console.SetCursorPosition(0, 5);
+                    Console.SetCursorPosition(0, 20);
                     Console.WriteLine(coins);
                 }
             }
