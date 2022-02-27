@@ -51,6 +51,11 @@ namespace pacman
             DrawWorld();
             Move(PLAYER, x, y);
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> f98cc6676c6ada1e4fe595911e72488f81db56f4
             while (true)
             {
                 Console.CursorVisible = false;
