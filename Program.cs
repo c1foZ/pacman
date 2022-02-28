@@ -18,7 +18,7 @@ namespace pacman
         const string PLAYER = "◖";
         const string o = ".";
         const int maxRight = 23; // delete
-        const int maxDown = 3; // delete
+        const int maxDown = 20; // delete
         const int timeout = 1000;
         static void Main(string[] args)
         {
@@ -167,16 +167,6 @@ namespace pacman
                 DrawWorld();
                 Move(PLAYER, x, y);
                 GetCoin();
-                // Thread.Sleep(timeout);
-                // ClearKeyBuffer();
-            }
-
-            void ClearKeyBuffer()
-            {
-                while (Console.KeyAvailable)
-                {
-                    Console.ReadKey(false);
-                }
             }
 
             void GetCoin()
