@@ -1,20 +1,25 @@
 ﻿using System;
-using System.Net;
-using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace pacman
 {
+    enum Direction
+    {
+        UP,
+        DOWN,
+        RIGHT,
+        LEFT
+    }
+
     class Program
     {
-        const string W = "#";
-        const string S = " ";
-        const string PLAYER = "*";
+        const string W = "■";
+        const string S = "\u2009";
+        const string PLAYER = "◖";
         const string o = ".";
-        const int maxRight = 23;
-        const int maxDown = 3;
-        const int timeout = 333;
+        const int maxRight = 23; // delete
+        const int maxDown = 3; // delete
+        const int timeout = 1000;
         static void Main(string[] args)
         {
             // Game game = new Game();
@@ -26,7 +31,7 @@ namespace pacman
             Console.Clear();
             int x = 1, y = 1;
 
-            Move(PLAYER);
+            Move(PLAYER, x, y);
             string[,] maze = {
                 {W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W},
                 {W,S,o,S,S,W,S,W,S,W,S,S,S,S,S,S,S,W,S,W,S,W,S,o,W},
@@ -44,79 +49,101 @@ namespace pacman
 
             Console.CursorVisible = false;
 
-            var command = Console.ReadKey().Key;
-            bool shouldStop = false;
-            int count = 0;
-            Thread t1 = new Thread(Run);
-            Thread t2 = new Thread(StopRun);
-
-            t1.Start();
-            t2.Start();
-
-            void Run()
+            var direction = Direction.DOWN;
+            var startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            var stepMs = 200;
+            ConsoleKey? lastKeyPress = null;
+            long now;
+            while (true)
             {
-                while (true)
+                while (Console.KeyAvailable)
                 {
-                    if (shouldStop)
-                    {
-                        continue;
-                    }
-                    if (Console.KeyAvailable)
-                    {
-                        command = Console.ReadKey().Key;
-                        count++;
-                        Console.WriteLine(count);
+                    var cmd = Console.ReadKey(false).Key;
+                    lastKeyPress = cmd;
+                }
+                Thread.Sleep(5);
+                now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                if (now - startTime <= stepMs)
+                {
+                    continue;
+                }
+                startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                if (lastKeyPress != null)
+                {
+                    ChangeDirection(lastKeyPress);
+                    lastKeyPress = null;
+                }
+                Step();
+                Play();
+            }
 
-                        switch (command)
-                        {
-                            case ConsoleKey.DownArrow:
-                                while (y < maxDown && maze[y + 1, x] != W)
-                                {
-                                    y++;
-                                    Play();
-                                }
-                                break;
-                            case ConsoleKey.UpArrow:
-                                while (y > 1 && maze[y - 1, x] != W)
-                                {
-                                    y--;
-                                    Play();
-                                }
-                                break;
-                            case ConsoleKey.LeftArrow:
-                                while (x > 1 && maze[y, x - 1] != W)
-                                {
-                                    x--;
-                                    Play();
-                                }
-                                break;
-                            case ConsoleKey.RightArrow:
-                                while (x < maxRight && maze[y, x + 1] != W)
-                                {
-                                    x++;
-                                    Play();
-                                }
-                                break;
-                        }
-                    }
+            void ChangeDirection(ConsoleKey? command)
+            {
+                switch (command)
+                {
+                    case ConsoleKey.DownArrow:
+                        direction = Direction.DOWN;
+                        break;
+                    case ConsoleKey.UpArrow:
+                        direction = Direction.UP;
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        direction = Direction.LEFT;
+                        break;
+                    case ConsoleKey.RightArrow:
+                        direction = Direction.RIGHT;
+                        break;
                 }
             }
 
-            void StopRun()
+            void Step()
             {
-                while (true)
+                switch (direction)
                 {
-                    if (Console.KeyAvailable)
-                    {
-                        command = Console.ReadKey().Key;
-                        switch (command)
-                        {
-                            case ConsoleKey.A:
-                                count = 0;
-                                shouldStop = false;
-                                break;
-                        }
-                    }
+                    case Direction.UP:
+                        Up();
+                        break;
+                    case Direction.RIGHT:
+                        Right();
+                        break;
+                    case Direction.LEFT:
+                        Left();
+                        break;
+                    case Direction.DOWN:
+                        Down();
+                        break;
+                }
+            }
+
+            void Right()
+            {
+                if (x < maxRight && maze[y, x + 1] != W)
+                {
+                    x++;
+                }
+            }
+
+            void Left()
+            {
+                if (x > 1 && maze[y, x - 1] != W)
+                {
+                    x--;
+                }
+            }
+
+            void Up()
+            {
+                if (y > 1 && maze[y - 1, x] != W)
+                {
+                    y--;
+                }
+            }
+
+            void Down()
+            {
+                if (y < maxDown && maze[y + 1, x] != W)
+                {
+                    y++;
                 }
             }
 
@@ -125,7 +152,7 @@ namespace pacman
                 DrawWorld();
                 Move(PLAYER, x, y);
                 GetCoin();
-                Thread.Sleep(timeout);
+                // Thread.Sleep(timeout);
                 // ClearKeyBuffer();
             }
 
@@ -149,7 +176,7 @@ namespace pacman
                 }
             }
 
-            void Move(string PLAYER, int x = 1, int y = 1)
+            void Move(string PLAYER, int x, int y)
             {
                 if (x >= 1 && y >= 1 && x <= maxRight && y <= maxDown)
                 {
