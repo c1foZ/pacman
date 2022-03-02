@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Transactions;
 
 namespace pacman
 {
@@ -15,23 +16,24 @@ namespace pacman
     {
         const string W = "■";
         const string S = "\u2009";
-        const string PLAYER = "◖";
+        const string PLAYER = "◔";
+        const string ENEMY = "X";
         const string o = ".";
         const int maxRight = 23; // delete
         const int maxDown = 20; // delete
-        const int timeout = 1000;
         static void Main(string[] args)
         {
-            // Game game = new Game();
-            // World world = new World();
-            // PlayerMovement movement = new PlayerMovement();
+            Game game = new Game();
+            game.printOnBoarding();
 
-            // game.printOnBoarding();
-            // movement.movePlayer();
             Console.Clear();
             int x = 1, y = 1;
+            int enemyX = 14, enemyY = 16;
+            int enemyPositionX = 0, enemyPositionY = 0;
+            int distance = 0;
+            bool isOver = false;
 
-            Move(PLAYER, x, y);
+            Move(x, y);
             string[,] maze = {
                 {W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W},
                 {W,S,o,S,S,W,S,W,S,W,S,S,S,S,S,S,S,W,S,W,S,W,S,o,W},
@@ -60,7 +62,7 @@ namespace pacman
             int coins = 0;
 
             DrawWorld();
-            Move(PLAYER, x, y);
+            Move(x, y);
 
             Console.CursorVisible = false;
 
@@ -71,7 +73,7 @@ namespace pacman
             long now;
             while (true)
             {
-                while (Console.KeyAvailable)
+                while (Console.KeyAvailable || isOver)
                 {
                     var cmd = Console.ReadKey(false).Key;
                     lastKeyPress = cmd;
@@ -165,8 +167,33 @@ namespace pacman
             void Play()
             {
                 DrawWorld();
-                Move(PLAYER, x, y);
+                Move(x, y);
                 GetCoin();
+                enemyMove();
+                gameOver();
+            }
+
+            void gameOver()
+            {
+                if (enemyPositionX == x && enemyPositionY == y)
+                {
+                    isOver = true;
+                    Thread.Sleep(1000);
+                    Console.Clear();
+                    Console.WriteLine(@"
+                    ██████╗  █████╗ ███╗   ███╗███████╗     ██████╗ ██╗   ██╗███████╗██████╗ 
+                    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝    ██╔═══██╗██║   ██║██╔════╝██╔══██╗
+                    ██║  ███╗███████║██╔████╔██║█████╗      ██║   ██║██║   ██║█████╗  ██████╔╝
+                    ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝      ██║   ██║╚██╗ ██╔╝██╔══╝  ██╔══██╗
+                    ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗    ╚██████╔╝ ╚████╔╝ ███████╗██║  ██║
+                    ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝     ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═╝                                                                          
+");
+                    Console.WriteLine("");
+                    Console.WriteLine("Press any key to exit...");
+                    Console.ReadKey();
+                    Console.Clear();
+                    Environment.Exit(0);
+                }
             }
 
             void GetCoin()
@@ -181,18 +208,65 @@ namespace pacman
                 }
             }
 
-            void Move(string PLAYER, int x, int y)
+            void Move(int playerX, int playerY)
             {
-                if (x >= 1 && y >= 1 && x <= maxRight && y <= maxDown)
+                if (playerX >= 1 && playerY >= 1 && playerX <= maxRight && playerY <= maxDown)
                 {
-                    Console.SetCursorPosition(x, y);
+                    Console.SetCursorPosition(playerX, playerY);
                     Console.Write(PLAYER);
                 }
             }
-            // void enemyMove(string ENEMY, int x = 10, int y = 10)
-            // {
-            //     Console.Write(ENEMY);
-            // }
+
+            void enemyMove()
+            {
+                if (enemyX >= 1 && enemyY >= 1 && enemyX <= maxRight && enemyY <= maxDown)
+                {
+                    distance = Math.Abs(x - enemyX) + Math.Abs(y - enemyY);
+                    Console.SetCursorPosition(3, 20);
+                    System.Console.WriteLine(distance);
+
+                    if (enemyX != 10 && enemyY == 16)
+                    {
+                        enemyX--;
+                        Console.SetCursorPosition(enemyX, enemyY);
+                        Console.Write(ENEMY);
+                        enemyPositionX = enemyX;
+                        enemyPositionY = enemyY;
+                    }
+
+                    if (enemyX == 10 && enemyY != 3)
+                    {
+                        enemyY--;
+                        Console.SetCursorPosition(enemyX, enemyY + 1);
+                        Console.Write(ENEMY);
+                        enemyPositionX = enemyX;
+                        enemyPositionY = enemyY + 1;
+                    }
+
+                    if (enemyX != 15 && enemyY == 3)
+                    {
+                        enemyX++;
+                        Console.SetCursorPosition(enemyX - 1, enemyY + 1);
+                        Console.Write(ENEMY);
+                        enemyPositionX = enemyX - 1;
+                        enemyPositionY = enemyY + 1;
+                    }
+
+                    if (enemyX == 15 && enemyY != 16)
+                    {
+                        enemyY++;
+                        Console.SetCursorPosition(enemyX - 1, enemyY);
+                        Console.Write(ENEMY);
+                        enemyPositionX = enemyX - 1;
+                        enemyPositionY = enemyY;
+                    }
+                    // else
+                    // {
+                    //     enemyPositionX = enemyX;
+                    //     enemyPositionY = enemyY;
+                    // }
+                }
+            }
 
             void DrawWorld()
             {
