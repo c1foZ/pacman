@@ -41,7 +41,7 @@ namespace pacman
             Thread.Sleep(1000);
             Console.Clear();
             Console.WriteLine(@"
-                    ██████╗  █████╗ ███╗   ███╗███████╗     ██████╗ ██╗   ██╗███████╗██████╗ 
+                     ██████╗  █████╗ ███╗   ███╗███████╗     ██████╗ ██╗   ██╗███████╗██████╗ 
                     ██╔════╝ ██╔══██╗████╗ ████║██╔════╝    ██╔═══██╗██║   ██║██╔════╝██╔══██╗
                     ██║  ███╗███████║██╔████╔██║█████╗      ██║   ██║██║   ██║█████╗  ██████╔╝
                     ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝      ██║   ██║╚██╗ ██╔╝██╔══╝  ██╔══██╗
@@ -51,10 +51,62 @@ namespace pacman
             Console.WriteLine("");
             Console.WriteLine("Your score is " + finalScore + ".");
             Console.WriteLine("");
-            Thread.Sleep(3000);
-            Console.WriteLine("Press any key to exit...");
+            Thread.Sleep(2000);
+            Console.WriteLine("Press ENTER to restart or ESCAPE to exit...");
 
-            Console.ReadKey();
+            while (true)
+            {
+                switch (Console.ReadKey().Key)
+                {
+                    case ConsoleKey.Enter:
+                        restartGame();
+                        break;
+                    case ConsoleKey.Escape:
+                        quitGame();
+                        break;
+                }
+            }
+        }
+
+        public void printWin(int finalScore)
+        {
+            Thread.Sleep(1000);
+            Console.Clear();
+            Console.WriteLine(@"
+██    ██  ██████  ██    ██     ██     ██ ██ ███    ██ ██ ██ ██ 
+ ██  ██  ██    ██ ██    ██     ██     ██ ██ ████   ██ ██ ██ ██ 
+  ████   ██    ██ ██    ██     ██  █  ██ ██ ██ ██  ██ ██ ██ ██ 
+   ██    ██    ██ ██    ██     ██ ███ ██ ██ ██  ██ ██          
+   ██     ██████   ██████       ███ ███  ██ ██   ████ ██ ██ ██ 
+                    ");
+            Console.WriteLine("");
+            Console.WriteLine("Your score is " + finalScore + ".");
+            Console.WriteLine("");
+            Console.WriteLine("Congratulations!!!");
+            Console.WriteLine("");
+            Console.WriteLine("Press ENTER to restart or ESCAPE to exit...");
+
+            while (true)
+            {
+                switch (Console.ReadKey().Key)
+                {
+                    case ConsoleKey.Enter:
+                        restartGame();
+                        break;
+                    case ConsoleKey.Escape:
+                        quitGame();
+                        break;
+                }
+            }
+        }
+        void restartGame()
+        {
+            PlayerMovement pm = new PlayerMovement();
+            pm.movePlayer();
+        }
+
+        void quitGame()
+        {
             Console.Clear();
             Environment.Exit(0);
         }

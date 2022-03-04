@@ -135,12 +135,12 @@ namespace pacman
             {
                 world.createWorld();
                 moveCursor();
-                getCoin();
                 em.enemyMove();
-                gameOver();
+                checkCoin();
+                checkGameOver();
             }
 
-            void gameOver()
+            void checkGameOver()
             {
                 if (em.enemyPositionX == playerPositionX && em.enemyPositionY == playerPositionY)
                 {
@@ -149,7 +149,7 @@ namespace pacman
                     game.printGameOver(coins);
                 }
             }
-            void getCoin()
+            void checkCoin()
             {
                 if (world.maze[playerPositionY, playerPositionX] == world.O)
                 {
@@ -158,6 +158,12 @@ namespace pacman
                     Console.SetCursorPosition(0, 20);
                     Console.Write("Score: ");
                     Console.Write(coins);
+                }
+                if (coins == 15)
+                {
+                    Game game = new Game();
+                    game.printWin(coins);
+
                 }
             }
         }
