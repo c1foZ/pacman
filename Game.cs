@@ -82,8 +82,10 @@ namespace pacman
             Console.WriteLine("");
             Console.WriteLine("Your score is " + finalScore + ".");
             Console.WriteLine("");
+            Thread.Sleep(1000);
             Console.WriteLine("Congratulations!!!");
             Console.WriteLine("");
+            Thread.Sleep(2000);
             Console.WriteLine("Press ENTER to restart or ESCAPE to exit...");
 
             while (true)
