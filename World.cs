@@ -43,7 +43,7 @@ namespace pacman
                 {w,o,s,w,o,s,s,w,s,o,s,s,w,o,s,w,o,s,s,w,s,o,s,s,w},
                 {w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w,w},
             };
-        public void createWorld()
+        public void renderWorld()
         {
             int rowLength = maze.GetLength(0);
             int colLength = maze.GetLength(1);

@@ -14,11 +14,10 @@ namespace pacman
     {
         World world = new World();
         EnemyMovement em = new EnemyMovement();
+        Coin cn = new Coin();
         const string PLAYER = "◔";
         int playerPositionX = 1, playerPositionY = 1;
         bool isOver = false;
-        int coins = 0;
-
         public void movePlayer()
         {
             Console.Clear();
@@ -49,7 +48,16 @@ namespace pacman
                     lastKeyPress = null;
                 }
                 Step();
-                Play();
+                runningGame();
+            }
+
+            void moveCursor()
+            {
+                if (playerPositionX >= 1 && playerPositionY >= 1)
+                {
+                    Console.SetCursorPosition(playerPositionX, playerPositionY);
+                    Console.Write(PLAYER);
+                }
             }
 
             void ChangeDirection(ConsoleKey? command)
@@ -122,18 +130,9 @@ namespace pacman
                 }
             }
 
-            void moveCursor()
+            void runningGame()
             {
-                if (playerPositionX >= 1 && playerPositionY >= 1)
-                {
-                    Console.SetCursorPosition(playerPositionX, playerPositionY);
-                    Console.Write(PLAYER);
-                }
-            }
-
-            void Play()
-            {
-                world.createWorld();
+                world.renderWorld();
                 moveCursor();
                 em.enemyMove();
                 checkCoin();
@@ -146,7 +145,7 @@ namespace pacman
                 {
                     isOver = true;
                     Game game = new Game();
-                    game.printGameOver(coins);
+                    game.printGameOver(cn.coins);
                 }
             }
             void checkCoin()
@@ -154,16 +153,7 @@ namespace pacman
                 if (world.maze[playerPositionY, playerPositionX] == world.O)
                 {
                     world.maze[playerPositionY, playerPositionX] = world.S;
-                    coins += 1;
-                    Console.SetCursorPosition(0, 20);
-                    Console.Write("Score: ");
-                    Console.Write(coins);
-                }
-                if (coins == 15)
-                {
-                    Game game = new Game();
-                    game.printWin(coins);
-
+                    cn.getCoin();
                 }
             }
         }
