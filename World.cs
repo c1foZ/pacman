@@ -1,9 +1,8 @@
-using System;
-
 namespace Pacman
 {
     class World
     {
+        private Renderer rd = new Renderer();
         public string[,] maze =  {
                 {Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W},
                 {Constants.W,Constants.S,Constants.O,Constants.S,Constants.S,Constants.W,Constants.S,Constants.W,Constants.S,Constants.W,Constants.S,Constants.S,Constants.S,Constants.S,Constants.S,Constants.S,Constants.S,Constants.W,Constants.S,Constants.W,Constants.S,Constants.W,Constants.S,Constants.O,Constants.W},
@@ -32,13 +31,12 @@ namespace Pacman
             int rowLength = maze.GetLength(0);
             int colLength = maze.GetLength(1);
 
-            for (int i = 0; i < rowLength; i++)
+            for (int mazePositionX = 0; mazePositionX < rowLength; mazePositionX++)
             {
-                for (int j = 0; j < colLength; j++)
+                for (int mazePositionY = 0; mazePositionY < colLength; mazePositionY++)
                 {
-                    string element = maze[i, j];
-                    Console.SetCursorPosition(j, i);
-                    Console.Write(element);
+                    string element = maze[mazePositionX, mazePositionY];
+                    rd.PrintWorld(element, mazePositionY, mazePositionX);
                 }
             }
         }

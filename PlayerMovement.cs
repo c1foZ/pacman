@@ -1,19 +1,17 @@
-using System;
-
 namespace Pacman
 {
     class PlayerMovement
     {
         private World world = new World();
-        public int playerPositionX = Constants.PLAYER_STARTING_POSITION_X;
-        public int playerPositionY = Constants.PLAYER_STARTING_POSITION_Y;
+        private Renderer rd = new Renderer();
+        public int playerPositionX { get; private set; } = Constants.PLAYER_STARTING_POSITION_X;
+        public int playerPositionY { get; private set; } = Constants.PLAYER_STARTING_POSITION_Y;
 
         public void MoveCursor()
         {
             if (playerPositionX >= 1 && playerPositionY >= 1)
             {
-                Console.SetCursorPosition(playerPositionX, playerPositionY);
-                Console.Write(Constants.PLAYER);
+                rd.PrintPlayer(playerPositionX, playerPositionY);
             }
         }
 

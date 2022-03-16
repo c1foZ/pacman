@@ -5,6 +5,7 @@ namespace Pacman
 {
     class Game
     {
+        private Renderer rd = new Renderer();
         private World world = new World();
         private Enemy em = new Enemy();
         private CoinCounter cn = new CoinCounter();
@@ -13,57 +14,8 @@ namespace Pacman
 
         public void InitGame()
         {
-            PrintOnBoarding();
+            rd.PrintOnBoarding();
             RunningGame();
-        }
-
-        private void PrintOnBoarding()
-        {
-            Console.Title = ">>>Pacman<<<";
-            Console.Clear();
-            Console.WriteLine(AsciiArt.TEXT_PACMAN);
-            Console.WriteLine("");
-            Console.WriteLine("Hello there!!! Here is Pacmaaaan!");
-            Console.WriteLine("");
-            Console.WriteLine("");
-            Console.Write("Press any key to START!");
-            Console.ReadKey();
-            Console.Clear();
-        }
-
-        private void PrintGameOver(int finalScore)
-        {
-            Console.Clear();
-            Console.WriteLine(AsciiArt.TEXT_GAMEOVER);
-            PrintText(finalScore);
-        }
-
-        private void PrintWin(int finalScore)
-        {
-            Console.Clear();
-            Console.WriteLine(AsciiArt.TEXT_YOUWIN);
-            PrintText(finalScore);
-        }
-
-        private void PrintText(int finalScore)
-        {
-            Console.WriteLine("");
-            Console.WriteLine("Your score is " + finalScore + ".");
-            Console.WriteLine("");
-            Console.WriteLine("Press ENTER to restart or ESCAPE to exit...");
-
-            while (true)
-            {
-                switch (Console.ReadKey().Key)
-                {
-                    case ConsoleKey.Enter:
-                        RestartGame();
-                        break;
-                    case ConsoleKey.Escape:
-                        QuitGame();
-                        break;
-                }
-            }
         }
 
         private void RestartGame()
@@ -170,7 +122,8 @@ namespace Pacman
 
         private void GameOver()
         {
-            PrintGameOver(cn.coins);
+            rd.PrintGameOver(cn.coins);
+            PressButton();
         }
 
         private void CheckCoin()
@@ -183,7 +136,24 @@ namespace Pacman
 
             if (cn.CheckWinningCondition())
             {
-                PrintWin(cn.coins);
+                rd.PrintWin(cn.coins);
+                PressButton();
+            }
+        }
+
+        private void PressButton()
+        {
+            while (true)
+            {
+                switch (Console.ReadKey().Key)
+                {
+                    case ConsoleKey.Enter:
+                        RestartGame();
+                        break;
+                    case ConsoleKey.Escape:
+                        QuitGame();
+                        break;
+                }
             }
         }
     }
