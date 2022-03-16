@@ -1,19 +1,18 @@
 using System;
 
-namespace pacman
+namespace Pacman
 {
-    class EnemyMovement
+    class Enemy
     {
-        const string ENEMY = "X";
         public int enemyPositionX = 0, enemyPositionY = 0;
         int enemyCursorX = 14, enemyCursorY = 16;
-        public void enemyMove()
+        public void EnemyMove()
         {
             if (enemyCursorX != 10 && enemyCursorY == 16)
             {
                 enemyCursorX--;
                 Console.SetCursorPosition(enemyCursorX, enemyCursorY);
-                Console.Write(ENEMY);
+                Console.Write(Constants.ENEMY);
                 enemyPositionX = enemyCursorX;
                 enemyPositionY = enemyCursorY;
             }
@@ -22,7 +21,7 @@ namespace pacman
             {
                 enemyCursorY--;
                 Console.SetCursorPosition(enemyCursorX, enemyCursorY + 1);
-                Console.Write(ENEMY);
+                Console.Write(Constants.ENEMY);
                 enemyPositionX = enemyCursorX;
                 enemyPositionY = enemyCursorY + 1;
             }
@@ -31,7 +30,7 @@ namespace pacman
             {
                 enemyCursorX++;
                 Console.SetCursorPosition(enemyCursorX - 1, enemyCursorY + 1);
-                Console.Write(ENEMY);
+                Console.Write(Constants.ENEMY);
                 enemyPositionX = enemyCursorX - 1;
                 enemyPositionY = enemyCursorY + 1;
             }
@@ -40,7 +39,7 @@ namespace pacman
             {
                 enemyCursorY++;
                 Console.SetCursorPosition(enemyCursorX - 1, enemyCursorY);
-                Console.Write(ENEMY);
+                Console.Write(Constants.ENEMY);
                 enemyPositionX = enemyCursorX - 1;
                 enemyPositionY = enemyCursorY;
 

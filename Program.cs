@@ -1,4 +1,4 @@
-﻿namespace pacman
+﻿namespace Pacman
 {
 
     class Program
@@ -6,7 +6,7 @@
         static void Main(string[] args)
         {
             Game game = new Game();
-            game.GameManager();
+            game.InitGame();
         }
 
     }
