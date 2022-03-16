@@ -1,4 +1,5 @@
 using System;
+
 namespace Pacman
 {
     class World
@@ -25,6 +26,7 @@ namespace Pacman
                 {Constants.W,Constants.O,Constants.S,Constants.W,Constants.O,Constants.S,Constants.S,Constants.W,Constants.S,Constants.O,Constants.S,Constants.S,Constants.W,Constants.O,Constants.S,Constants.W,Constants.O,Constants.S,Constants.S,Constants.W,Constants.S,Constants.O,Constants.S,Constants.S,Constants.W},
                 {Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W,Constants.W},
             };
+
         public void RenderWorld()
         {
             int rowLength = maze.GetLength(0);
@@ -40,6 +42,5 @@ namespace Pacman
                 }
             }
         }
-
     }
 }

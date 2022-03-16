@@ -1,13 +1,12 @@
 using System;
 
-
 namespace Pacman
 {
     class PlayerMovement
     {
         private World world = new World();
-        public int playerPositionX = Constants.STARTING_POSITION_X;
-        public int playerPositionY = Constants.STARTING_POSITION_Y;
+        public int playerPositionX = Constants.PLAYER_STARTING_POSITION_X;
+        public int playerPositionY = Constants.PLAYER_STARTING_POSITION_Y;
 
         public void MoveCursor()
         {
@@ -17,6 +16,7 @@ namespace Pacman
                 Console.Write(Constants.PLAYER);
             }
         }
+
         public void Right()
         {
             if (world.maze[playerPositionY, playerPositionX + 1] != Constants.W)

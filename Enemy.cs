@@ -5,10 +5,11 @@ namespace Pacman
     class Enemy
     {
         public int enemyPositionX = 0, enemyPositionY = 0;
-        int enemyCursorX = 14, enemyCursorY = 16;
+        private int enemyCursorX = Constants.ENEMY_RIGHT_TRAJECTORY, enemyCursorY = Constants.ENEMY_BOTTOM_TRAJECTORY;
+
         public void EnemyMove()
         {
-            if (enemyCursorX != 10 && enemyCursorY == 16)
+            if (enemyCursorX != Constants.ENEMY_LEFT_TRAJECTORY && enemyCursorY == Constants.ENEMY_BOTTOM_TRAJECTORY)
             {
                 enemyCursorX--;
                 Console.SetCursorPosition(enemyCursorX, enemyCursorY);
@@ -17,7 +18,7 @@ namespace Pacman
                 enemyPositionY = enemyCursorY;
             }
 
-            if (enemyCursorX == 10 && enemyCursorY != 3)
+            if (enemyCursorX == Constants.ENEMY_LEFT_TRAJECTORY && enemyCursorY != Constants.ENEMY_TOP_TRAJECTORY)
             {
                 enemyCursorY--;
                 Console.SetCursorPosition(enemyCursorX, enemyCursorY + 1);
@@ -26,7 +27,7 @@ namespace Pacman
                 enemyPositionY = enemyCursorY + 1;
             }
 
-            if (enemyCursorX != 15 && enemyCursorY == 3)
+            if (enemyCursorX != Constants.ENEMY_RIGHT_TRAJECTORY && enemyCursorY == Constants.ENEMY_TOP_TRAJECTORY)
             {
                 enemyCursorX++;
                 Console.SetCursorPosition(enemyCursorX - 1, enemyCursorY + 1);
@@ -35,7 +36,7 @@ namespace Pacman
                 enemyPositionY = enemyCursorY + 1;
             }
 
-            if (enemyCursorX == 15 && enemyCursorY != 16)
+            if (enemyCursorX == Constants.ENEMY_RIGHT_TRAJECTORY && enemyCursorY != Constants.ENEMY_BOTTOM_TRAJECTORY)
             {
                 enemyCursorY++;
                 Console.SetCursorPosition(enemyCursorX - 1, enemyCursorY);

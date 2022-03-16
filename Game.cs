@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+
 namespace Pacman
 {
     class Game
@@ -9,6 +10,7 @@ namespace Pacman
         private CoinCounter cn = new CoinCounter();
         private PlayerMovement pm = new PlayerMovement();
         private bool isOver = false;
+
         public void InitGame()
         {
             PrintOnBoarding();
@@ -126,7 +128,6 @@ namespace Pacman
                         direction = Direction.RIGHT;
                         break;
                 }
-
             }
 
             void Step()
@@ -179,6 +180,7 @@ namespace Pacman
                 world.maze[pm.playerPositionY, pm.playerPositionX] = Constants.S;
                 cn.Increment();
             }
+
             if (cn.CheckWinningCondition())
             {
                 PrintWin(cn.coins);
