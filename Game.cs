@@ -11,6 +11,8 @@ namespace Pacman
         private CoinCounter cn = new CoinCounter();
         private PlayerMovement pm = new PlayerMovement();
         private bool isOver = false;
+        private EnemyCoords ec = new EnemyCoords();
+
 
         public void InitGame()
         {
@@ -63,6 +65,7 @@ namespace Pacman
                 RenderingGame();
             }
 
+            //delete
             void ChangeDirection(ConsoleKey? command)
             {
                 switch (command)
@@ -110,10 +113,9 @@ namespace Pacman
             CheckCoin();
             CheckGameOver();
         }
-
         private void CheckGameOver()
         {
-            if (em.enemyPositionX == pm.playerPositionX && em.enemyPositionY == pm.playerPositionY)
+            if (EnemyCoords.X == PlayerCoords.X && EnemyCoords.Y == PlayerCoords.Y)
             {
                 isOver = true;
                 GameOver();
@@ -128,9 +130,9 @@ namespace Pacman
 
         private void CheckCoin()
         {
-            if (world.maze[pm.playerPositionY, pm.playerPositionX] == Constants.O)
+            if (world.maze[PlayerCoords.Y, PlayerCoords.X] == Constants.O)
             {
-                world.maze[pm.playerPositionY, pm.playerPositionX] = Constants.S;
+                world.maze[PlayerCoords.Y, PlayerCoords.X] = Constants.S;
                 cn.Increment();
             }
 

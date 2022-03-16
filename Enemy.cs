@@ -1,46 +1,47 @@
+using static Pacman.EnemyCoords;
+using static Pacman.Constants;
+
 namespace Pacman
 {
     class Enemy
     {
         private Renderer rd = new Renderer();
-        public int enemyPositionX = 0, enemyPositionY = 0;
-        private int enemyCursorX = Constants.ENEMY_RIGHT_TRAJECTORY, enemyCursorY = Constants.ENEMY_BOTTOM_TRAJECTORY;
 
         public void EnemyMove()
         {
-            if (enemyCursorX != Constants.ENEMY_LEFT_TRAJECTORY && enemyCursorY == Constants.ENEMY_BOTTOM_TRAJECTORY)
+            if (CursorX != ENEMY_LEFT_TRAJECTORY && CursorY == ENEMY_BOTTOM_TRAJECTORY)
             {
-                enemyCursorX--;
-                rd.PrintEnemy(enemyCursorX, enemyCursorY);
-                SavePosition(enemyCursorX, enemyCursorY);
+                CursorX--;
+                rd.PrintEnemy(CursorX, CursorY);
+                SavePosition(CursorX, CursorY);
             }
 
-            if (enemyCursorX == Constants.ENEMY_LEFT_TRAJECTORY && enemyCursorY != Constants.ENEMY_TOP_TRAJECTORY)
+            if (CursorX == ENEMY_LEFT_TRAJECTORY && CursorY != ENEMY_TOP_TRAJECTORY)
             {
-                enemyCursorY--;
-                rd.PrintEnemy(enemyCursorX, enemyCursorY + 1);
-                SavePosition(enemyCursorX, enemyCursorY + 1);
+                CursorY--;
+                rd.PrintEnemy(CursorX, CursorY + 1);
+                SavePosition(CursorX, CursorY + 1);
             }
 
-            if (enemyCursorX != Constants.ENEMY_RIGHT_TRAJECTORY && enemyCursorY == Constants.ENEMY_TOP_TRAJECTORY)
+            if (CursorX != ENEMY_RIGHT_TRAJECTORY && CursorY == ENEMY_TOP_TRAJECTORY)
             {
-                enemyCursorX++;
-                rd.PrintEnemy(enemyCursorX - 1, enemyCursorY + 1);
-                SavePosition(enemyCursorX - 1, enemyCursorY + 1);
+                CursorX++;
+                rd.PrintEnemy(CursorX - 1, CursorY + 1);
+                SavePosition(CursorX - 1, CursorY + 1);
             }
 
-            if (enemyCursorX == Constants.ENEMY_RIGHT_TRAJECTORY && enemyCursorY != Constants.ENEMY_BOTTOM_TRAJECTORY)
+            if (CursorX == ENEMY_RIGHT_TRAJECTORY && CursorY != ENEMY_BOTTOM_TRAJECTORY)
             {
-                enemyCursorY++;
-                rd.PrintEnemy(enemyCursorX - 1, enemyCursorY);
-                SavePosition(enemyCursorX - 1, enemyCursorY);
+                CursorY++;
+                rd.PrintEnemy(CursorX - 1, CursorY);
+                SavePosition(CursorX - 1, CursorY);
             }
         }
 
         private void SavePosition(int cursorX, int cursorY)
         {
-            enemyPositionX = cursorX;
-            enemyPositionY = cursorY;
+            X = cursorX;
+            Y = cursorY;
         }
     }
 }
