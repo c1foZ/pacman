@@ -22,7 +22,7 @@ namespace Pacman
             Write(Constants.ENEMY);
         }
 
-        public void PrintCoin(int coins)
+        public void PrintCoinScore(int coins)
         {
             SetCursorPosition(0, 20);
             Write("Score: ");

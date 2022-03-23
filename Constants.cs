@@ -11,8 +11,8 @@ namespace Pacman
         public const int PLAYER_STARTING_POSITION_X = 1;
         public const int PLAYER_STARTING_POSITION_Y = 1;
         public const int ENEMY_LEFT_TRAJECTORY = 10;
-        public const int ENEMY_RIGHT_TRAJECTORY = 15;
+        public const int ENEMY_RIGHT_TRAJECTORY = 14;
         public const int ENEMY_BOTTOM_TRAJECTORY = 16;
-        public const int ENEMY_TOP_TRAJECTORY = 3;
+        public const int ENEMY_TOP_TRAJECTORY = 4;
     }
 }
