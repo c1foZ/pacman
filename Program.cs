@@ -22,13 +22,13 @@ namespace pacman
         const int timeout = 1000;
         static void Main(string[] args)
         {
-            // Game game = new Game();
+            Game game = new Game();
             // World world = new World();
             // PlayerMovement movement = new PlayerMovement();
 
-            // game.printOnBoarding();
+            game.printOnBoarding();
             // movement.movePlayer();
-            Console.Clear();
+            // Console.Clear();
             int x = 1, y = 1;
 
             Move(PLAYER, x, y);
