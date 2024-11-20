@@ -25,7 +25,14 @@ namespace pacman
             {
                 (10, 10), // Enemy 1
                 (15, 5),  // Enemy 2
-                (20, 15)  // Enemy 3
+                (20, 15),  // Enemy 3
+                (15, 15),  // Enemy 4
+                (15, 5),  // Enemy 5
+                (5, 5),  // Enemy 6
+                (1, 15),  // Enemy 7
+                (1, 10),  // Enemy 8
+                (1, 5),  // Enemy 9
+                (5, 1)  // Enemy 10
             };
 
             string[,] maze = {
