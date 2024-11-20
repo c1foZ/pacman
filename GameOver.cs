@@ -5,7 +5,7 @@ namespace pacman
 {
     class GameOver
     {
-        public void printOnGameOver()
+        public bool printOnGameOver()
         {
             Title = ">>>Pacman<<<";
             Clear();
@@ -22,8 +22,23 @@ namespace pacman
             WriteLine("");
             WriteLine("");
             Write("Thanks for playing!");
-
+            WriteLine("");
+            WriteLine("");
             ReadKey();
+            WriteLine("Press any key to restart, or Escape to quit.");
+
+            while (true)
+            {
+                var key = ReadKey(true).Key;
+                if (key == ConsoleKey.Escape)
+                {
+                    return false; 
+                }
+                else
+                {
+                    return true;
+                }
+            }
         }
     }
 }
