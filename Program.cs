@@ -3,35 +3,23 @@ using System.Threading;
 
 namespace pacman
 {
-    enum Direction
-    {
-        UP,
-        DOWN,
-        RIGHT,
-        LEFT
-    }
-
     class Program
     {
         const string W = "■";
         const string S = "\u2009";
         const string PLAYER = "◖";
+        const string ENEMY = "☠";
         const string o = ".";
-        const int maxRight = 23; // delete
-        const int maxDown = 20; // delete
-        const int timeout = 1000;
+        const int maxRight = 23;
+        const int maxDown = 20;
         static void Main(string[] args)
         {
             Game game = new Game();
-            // World world = new World();
-            // PlayerMovement movement = new PlayerMovement();
-
             game.printOnBoarding();
-            // movement.movePlayer();
-            // Console.Clear();
-            int x = 1, y = 1;
+            int playerX = 1, playerY = 1;
+            int enemyX = 10, enemyY = 10;
+            var random = new Random();
 
-            Move(PLAYER, x, y);
             string[,] maze = {
                 {W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W},
                 {W,S,o,S,S,W,S,W,S,W,S,S,S,S,S,S,S,W,S,W,S,W,S,o,W},
@@ -57,155 +45,100 @@ namespace pacman
 
             int rowLength = maze.GetLength(0);
             int colLength = maze.GetLength(1);
-            int coins = 0;
-
-            DrawWorld();
-            Move(PLAYER, x, y);
-
-            Console.CursorVisible = false;
-
             var direction = Direction.DOWN;
-            var startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            var stepMs = 200;
-            ConsoleKey? lastKeyPress = null;
-            long now;
-            while (true)
-            {
-                while (Console.KeyAvailable)
-                {
-                    var cmd = Console.ReadKey(false).Key;
-                    lastKeyPress = cmd;
-                }
-                Thread.Sleep(5);
-                now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-                if (now - startTime <= stepMs)
-                {
-                    continue;
-                }
-                startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-                if (lastKeyPress != null)
-                {
-                    ChangeDirection(lastKeyPress);
-                    lastKeyPress = null;
-                }
-                Step();
-                Play();
-            }
 
-            void ChangeDirection(ConsoleKey? command)
-            {
-                switch (command)
-                {
-                    case ConsoleKey.DownArrow:
-                        direction = Direction.DOWN;
-                        break;
-                    case ConsoleKey.UpArrow:
-                        direction = Direction.UP;
-                        break;
-                    case ConsoleKey.LeftArrow:
-                        direction = Direction.LEFT;
-                        break;
-                    case ConsoleKey.RightArrow:
-                        direction = Direction.RIGHT;
-                        break;
-                }
-            }
-
-            void Step()
+            void MovePlayer()
             {
                 switch (direction)
                 {
                     case Direction.UP:
-                        Up();
-                        break;
-                    case Direction.RIGHT:
-                        Right();
-                        break;
-                    case Direction.LEFT:
-                        Left();
+                        if (playerY > 1 && maze[playerY - 1, playerX] != W) playerY--;
                         break;
                     case Direction.DOWN:
-                        Down();
+                        if (playerY < maxDown && maze[playerY + 1, playerX] != W) playerY++;
+                        break;
+                    case Direction.LEFT:
+                        if (playerX > 1 && maze[playerY, playerX - 1] != W) playerX--;
+                        break;
+                    case Direction.RIGHT:
+                        if (playerX < maxRight && maze[playerY, playerX + 1] != W) playerX++;
                         break;
                 }
             }
 
-            void Right()
+            void MoveEnemy()
             {
-                if (x < maxRight && maze[y, x + 1] != W)
+                int move = random.Next(4);
+                switch (move)
                 {
-                    x++;
+                    case 0: // Up
+                        if (enemyY > 1 && maze[enemyY - 1, enemyX] != W) enemyY--;
+                        break;
+                    case 1: // Down
+                        if (enemyY < maxDown && maze[enemyY + 1, enemyX] != W) enemyY++;
+                        break;
+                    case 2: // Left
+                        if (enemyX > 1 && maze[enemyY, enemyX - 1] != W) enemyX--;
+                        break;
+                    case 3: // Right
+                        if (enemyX < maxRight && maze[enemyY, enemyX + 1] != W) enemyX++;
+                        break;
                 }
             }
 
-            void Left()
+            void Draw()
             {
-                if (x > 1 && maze[y, x - 1] != W)
-                {
-                    x--;
-                }
-            }
-
-            void Up()
-            {
-                if (y > 1 && maze[y - 1, x] != W)
-                {
-                    y--;
-                }
-            }
-
-            void Down()
-            {
-                if (y < maxDown && maze[y + 1, x] != W)
-                {
-                    y++;
-                }
-            }
-
-            void Play()
-            {
-                DrawWorld();
-                Move(PLAYER, x, y);
-                GetCoin();
-            }
-
-            void GetCoin()
-            {
-                if (maze[y, x] == o)
-                {
-                    maze[y, x] = S;
-                    coins += 1;
-                    Console.SetCursorPosition(0, 20);
-                    Console.WriteLine(coins);
-                    Console.WriteLine("");
-                }
-            }
-
-            void Move(string PLAYER, int x, int y)
-            {
-                if (x >= 1 && y >= 1 && x <= maxRight && y <= maxDown)
-                {
-                    Console.SetCursorPosition(x, y);
-                    Console.Write(PLAYER);
-                }
-            }
-            // void enemyMove(string ENEMY, int x = 10, int y = 10)
-            // {
-            //     Console.Write(ENEMY);
-            // }
-
-            void DrawWorld()
-            {
+                Console.Clear();
                 for (int i = 0; i < rowLength; i++)
                 {
                     for (int j = 0; j < colLength; j++)
                     {
-                        string element = maze[i, j];
                         Console.SetCursorPosition(j, i);
-                        Console.Write(element);
+                        Console.Write(maze[i, j]);
                     }
+                }
+                Console.SetCursorPosition(playerX, playerY);
+                Console.Write(PLAYER);
+                Console.SetCursorPosition(enemyX, enemyY);
+                Console.Write(ENEMY);
+            }
+
+            Console.CursorVisible = false;
+            var startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            var stepMs = 200;
+
+            while (true)
+            {
+                while (Console.KeyAvailable)
+                {
+                    var key = Console.ReadKey(true).Key;
+                    direction = key switch
+                    {
+                        ConsoleKey.UpArrow => Direction.UP,
+                        ConsoleKey.DownArrow => Direction.DOWN,
+                        ConsoleKey.LeftArrow => Direction.LEFT,
+                        ConsoleKey.RightArrow => Direction.RIGHT,
+                        _ => direction
+                    };
+                }
+
+                long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                if (now - startTime < stepMs) continue;
+                startTime = now;
+
+                MovePlayer();
+                MoveEnemy();
+                Draw();
+
+                if (playerX == enemyX && playerY == enemyY)
+                {
+                    Console.SetCursorPosition(0, maxDown + 2);
+                    Console.WriteLine("Game Over!");
+                    break;
                 }
             }
         }
+
+        enum Direction { UP, DOWN, LEFT, RIGHT }
     }
 }
