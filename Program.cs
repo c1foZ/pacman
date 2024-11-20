@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading;
+using System.Collections.Generic;
 
 namespace pacman
 {
@@ -12,13 +12,21 @@ namespace pacman
         const string o = ".";
         const int maxRight = 23;
         const int maxDown = 20;
+
         static void Main(string[] args)
         {
             Game game = new Game();
             game.printOnBoarding();
             int playerX = 1, playerY = 1;
-            int enemyX = 10, enemyY = 10;
             var random = new Random();
+
+            // Initialize enemies
+            var enemies = new List<(int x, int y)>
+            {
+                (10, 10), // Enemy 1
+                (15, 5),  // Enemy 2
+                (20, 15)  // Enemy 3
+            };
 
             string[,] maze = {
                 {W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W},
@@ -66,23 +74,20 @@ namespace pacman
                 }
             }
 
-            void MoveEnemy()
+            void MoveEnemies()
             {
-                int move = random.Next(4);
-                switch (move)
+                for (int i = 0; i < enemies.Count; i++)
                 {
-                    case 0: // Up
-                        if (enemyY > 1 && maze[enemyY - 1, enemyX] != W) enemyY--;
-                        break;
-                    case 1: // Down
-                        if (enemyY < maxDown && maze[enemyY + 1, enemyX] != W) enemyY++;
-                        break;
-                    case 2: // Left
-                        if (enemyX > 1 && maze[enemyY, enemyX - 1] != W) enemyX--;
-                        break;
-                    case 3: // Right
-                        if (enemyX < maxRight && maze[enemyY, enemyX + 1] != W) enemyX++;
-                        break;
+                    int move = random.Next(4);
+                    var (x, y) = enemies[i];
+                    switch (move)
+                    {
+                        case 0: if (y > 1 && maze[y - 1, x] != W) y--; break; // Up
+                        case 1: if (y < maxDown && maze[y + 1, x] != W) y++; break; // Down
+                        case 2: if (x > 1 && maze[y, x - 1] != W) x--; break; // Left
+                        case 3: if (x < maxRight && maze[y, x + 1] != W) x++; break; // Right
+                    }
+                    enemies[i] = (x, y);
                 }
             }
 
@@ -97,10 +102,17 @@ namespace pacman
                         Console.Write(maze[i, j]);
                     }
                 }
+
+                // Draw the player
                 Console.SetCursorPosition(playerX, playerY);
                 Console.Write(PLAYER);
-                Console.SetCursorPosition(enemyX, enemyY);
-                Console.Write(ENEMY);
+
+                // Draw the enemies
+                foreach (var (x, y) in enemies)
+                {
+                    Console.SetCursorPosition(x, y);
+                    Console.Write(ENEMY);
+                }
             }
 
             Console.CursorVisible = false;
@@ -127,14 +139,18 @@ namespace pacman
                 startTime = now;
 
                 MovePlayer();
-                MoveEnemy();
+                MoveEnemies();
                 Draw();
 
-                if (playerX == enemyX && playerY == enemyY)
+                // Check for collision with any enemy
+                foreach (var (x, y) in enemies)
                 {
-                    Console.SetCursorPosition(0, maxDown + 2);
-                    Console.WriteLine("Game Over!");
-                    break;
+                    if (playerX == x && playerY == y)
+                    {
+                        Console.SetCursorPosition(0, maxDown + 2);
+                        Console.WriteLine("Game Over!");
+                        return;
+                    }
                 }
             }
         }
