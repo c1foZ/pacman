@@ -9,7 +9,7 @@ namespace pacman
         const string S = "\u2009";
         const string PLAYER = "◖";
         const string ENEMY = "☠";
-        const string o = ".";
+        const string o = "."; // Coin symbol
         const int maxRight = 23;
         const int maxDown = 20;
 
@@ -18,6 +18,7 @@ namespace pacman
             Game game = new Game();
             game.printOnBoarding();
             int playerX = 1, playerY = 1;
+            int score = 0; // Initialize score
             var random = new Random();
 
             // Initialize enemies
@@ -35,7 +36,7 @@ namespace pacman
                 (5, 1)  // Enemy 10
             };
 
-            string[,] maze = {
+         string[,] maze = {
                 {W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W,W},
                 {W,S,o,S,S,W,S,W,S,W,S,S,S,S,S,S,S,W,S,W,S,W,S,o,W},
                 {W,S,S,W,S,W,S,o,S,W,S,S,W,S,S,W,S,W,S,o,S,W,S,S,W},
@@ -79,6 +80,13 @@ namespace pacman
                         if (playerX < maxRight && maze[playerY, playerX + 1] != W) playerX++;
                         break;
                 }
+
+                // Check if player collects a coin
+                if (maze[playerY, playerX] == o)
+                {
+                    maze[playerY, playerX] = S;  // Replace coin with space
+                    score++;  // Increase score
+                }
             }
 
             void MoveEnemies()
@@ -120,6 +128,10 @@ namespace pacman
                     Console.SetCursorPosition(x, y);
                     Console.Write(ENEMY);
                 }
+
+                // Draw the score
+                Console.SetCursorPosition(0, maxDown + 2);
+                Console.WriteLine($"Score: {score}");
             }
 
             Console.CursorVisible = false;
@@ -154,8 +166,9 @@ namespace pacman
                 {
                     if (playerX == x && playerY == y)
                     {
-                        Console.SetCursorPosition(0, maxDown + 2);
-                        Console.WriteLine("Game Over!");
+                        Console.SetCursorPosition(0, maxDown + 4);
+                        GameOver gameOver = new GameOver();
+                        gameOver.printOnGameOver();
                         return;
                     }
                 }
