@@ -1,6 +1,6 @@
 ## Pacman!
 
-Pacman is a classic arcade game implemented in C#. In this version, the player controls Pacman through a maze, collecting dots while avoiding enemies. The objective is to score as many points as possible while surviving the maze.
+Pacman is a classic arcade game implemented in C# and playable in the terminal (or command prompt). In this version, the player controls Pacman through a maze, collecting dots while avoiding enemies. The objective is to score as many points as possible while surviving the maze.
 
 ## Installation
 
