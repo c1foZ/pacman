@@ -7,7 +7,7 @@ Pacman is a classic arcade game implemented in C# and playable in the terminal (
 ### Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/pacman.git
+git clone https://github.com/c1foZ/pacman.git
 ```
 
 ### Install .NET 9.0 (if not already installed):
